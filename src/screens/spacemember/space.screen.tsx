@@ -1,9 +1,14 @@
 import React from 'react';
-import { Button, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 // @ts-ignore
 import Background from '../../assets/bg/bg2.jpg';
-const SpaceScreen = ({navigation}) => {
-
+const SpaceScreen = ({navigation}: any) => {
   return (
     <View style={{flex: 1}}>
       <ImageBackground
@@ -14,10 +19,14 @@ const SpaceScreen = ({navigation}) => {
           Bienvenue dans ton application d'évenements
         </Text>
         <View style={styles.btns}>
-          <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('login')}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => navigation.navigate('login')}>
             <Text style={styles.btnTxt}>Se connecter</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('register')}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => navigation.navigate('register')}>
             <Text style={styles.btnTxt}>S' inscrire</Text>
           </TouchableOpacity>
         </View>

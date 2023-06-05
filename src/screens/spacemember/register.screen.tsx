@@ -1,19 +1,58 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Button,
   ImageBackground,
   StyleSheet,
+  Text,
   TextInput,
   View,
 } from 'react-native';
+// @ts-ignore
 import Background from '../../assets/bg/bg3.jpg';
 import {Icon} from '@rneui/themed';
-const RegisterScreen = () => {
+
+import {API_URL} from '@env';
+import axios from 'axios';
+const RegisterScreen = ({navigation}: any) => {
   const [passwordView, setPasswordView] = useState<boolean>(false);
 
   const [email, setEmail] = useState<string>('');
   const [pseudo, setPseudo] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [messageError, setMessageError] = useState('');
+  const url = API_URL
+
+  const handleSubmit = () => {
+    if (email.length < 5) {
+      return setMessageError('Email invalide');
+    }
+    if (pseudo.length < 3) {
+      return setMessageError('Pseudo invalide');
+    }
+    if (password.length < 5) {
+      return setMessageError('Mot de passe trop court');
+    }
+    setMessageError('');
+
+    axios
+      .post(`${url}/auth/register`, {
+        email,
+        password,
+        pseudo,
+      })
+      .then(res => {
+        if (res.status === 200) {
+          setMessageError('');
+
+          navigation.navigate('login');
+        }
+      })
+      .catch(err => {
+        if (err.message) {
+          setMessageError(err.message);
+        }
+      });
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -60,7 +99,10 @@ const RegisterScreen = () => {
             onChangeText={text => setPassword(text)}
           />
         </View>
-        <Button title={"S'inscrire"} color={'#6c5ce7'} />
+        <Button title={"S'inscrire"} color={'#6c5ce7'} onPress={handleSubmit} />
+        {messageError.length > 0 && (
+          <Text style={{color: 'red', fontSize: 20}}>{messageError}</Text>
+        )}
       </ImageBackground>
     </View>
   );
@@ -72,14 +114,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#dfe6e9',
-    borderRadius: 10,
+    borderRadius: 12,
   },
   input: {
     flex: 1,
-    paddingTop: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
-    paddingLeft: 0,
+    padding: 10,
     color: '#424242',
   },
   icon: {
