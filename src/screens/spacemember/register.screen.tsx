@@ -51,8 +51,8 @@ const RegisterScreen = ({navigation}: any) => {
         }
       })
       .catch(err => {
-        if (err.message) {
-          setMessageError(err.message);
+        if (err.response.data.message) {
+          setMessageError(err.response.data.message);
         }
       });
   };
@@ -125,14 +125,14 @@ const RegisterScreen = ({navigation}: any) => {
             borderTopEndRadius: 10,
             borderBottomStartRadius: 10,
           }}
-          onPress={() => handleSubmit}>
+          onPress={() => handleSubmit()}>
           <Text style={styles.btnTxt}>S' inscrire</Text>
         </TouchableOpacity>
         {messageError.length > 0 && (
           <Text style={{color: 'red', fontSize: 20}}>{messageError}</Text>
         )}
       </View>
-      <View style={{alignItems: 'flex-end'}}>
+      <View style={{alignItems: 'flex-end', zIndex: -1}}>
         <Image
           source={Trai}
           resizeMode={'cover'}
