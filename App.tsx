@@ -11,6 +11,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SpaceScreen from "./src/screens/spacemember/space.screen";
 import LoginScreen from "./src/screens/spacemember/login.screen";
 import RegisterScreen from "./src/screens/spacemember/register.screen";
+import { StatusBar } from "react-native";
 
 
 
@@ -24,11 +25,14 @@ function App(): JSX.Element {
 
 
   return (
-    <Stack.Navigator initialRouteName={'space'} screenOptions={{headerShown: false}}>
-      <Stack.Screen name={'space'} component={SpaceScreen} />
-      <Stack.Screen name={'login'} component={LoginScreen} />
-      <Stack.Screen name={'register'} component={RegisterScreen} />
-    </Stack.Navigator>
+    <>
+      <StatusBar backgroundColor={'#202020'}/>
+      <Stack.Navigator initialRouteName={'space'} screenOptions={{headerShown: false}}>
+        <Stack.Screen name={'space'} component={SpaceScreen} />
+        <Stack.Screen name={'login'} component={LoginScreen} />
+        <Stack.Screen name={'register'} component={RegisterScreen} />
+      </Stack.Navigator>
+    </>
   );
 }
 

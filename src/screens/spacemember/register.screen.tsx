@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, {useState} from 'react';
 import {
-  Button,
-  ImageBackground,
+  Image,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 // @ts-ignore
-import Background from '../../assets/bg/bg3.jpg';
-import {Icon} from '@rneui/themed';
+import Conffeti from '../../assets/auth/conffeti.png';
+// @ts-ignore
+import Trai from '../../assets/auth/trai.png';
 
+import {Icon} from '@rneui/themed';
+// @ts-ignore
 import {API_URL} from '@env';
 import axios from 'axios';
 const RegisterScreen = ({navigation}: any) => {
@@ -20,7 +23,7 @@ const RegisterScreen = ({navigation}: any) => {
   const [pseudo, setPseudo] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [messageError, setMessageError] = useState('');
-  const url = API_URL
+  const url = API_URL;
 
   const handleSubmit = () => {
     if (email.length < 5) {
@@ -55,28 +58,32 @@ const RegisterScreen = ({navigation}: any) => {
   };
 
   return (
-    <View style={{flex: 1}}>
-      <ImageBackground
-        source={Background}
+    <View style={{flex: 1, backgroundColor: '#202020'}}>
+      <Image
+        source={Conffeti}
         resizeMode={'cover'}
+        style={{transform: [{scaleX: -1}]}}
+      />
+      <View
         style={{
           flex: 1,
-          justifyContent: 'center',
-          gap: 15,
-          paddingHorizontal: 15,
+          justifyContent: 'flex-start',
+          gap: 17,
+          padding: 35,
+          marginTop: 10,
         }}>
-        <View style={styles.inputView}>
-          <Icon name={'perm-identity'} style={styles.icon} />
-          <TextInput
-            placeholder={'Pseudo'}
-            style={styles.input}
-            value={pseudo}
-            onChangeText={text => setPseudo(text)}
-          />
+        <View>
+          <Text style={{color: 'white', fontWeight: 'bold', fontSize: 24}}>
+            S'inscrire
+          </Text>
+          <Text style={{color: '#bfbfbf', fontWeight: 'bold', fontSize: 12}}>
+            Veuillez vous inscrire pour continuer
+          </Text>
         </View>
         <View style={styles.inputView}>
-          <Icon name={'outgoing-mail'} style={styles.icon} />
+          <Icon color={'#bfbfbf'} name={'outgoing-mail'} style={styles.icon} />
           <TextInput
+            placeholderTextColor={'#bfbfbf'}
             placeholder={'Email'}
             style={styles.input}
             inputMode={'email'}
@@ -85,12 +92,25 @@ const RegisterScreen = ({navigation}: any) => {
           />
         </View>
         <View style={styles.inputView}>
+          <Icon color={'#bfbfbf'} name={'perm-identity'} style={styles.icon} />
+          <TextInput
+            placeholderTextColor={'#bfbfbf'}
+            placeholder={'Pseudo'}
+            style={styles.input}
+            value={pseudo}
+            onChangeText={text => setPseudo(text)}
+          />
+        </View>
+
+        <View style={styles.inputView}>
           <Icon
+            color={'#bfbfbf'}
             name={passwordView ? 'lock-open' : 'lock'}
             style={styles.icon}
             onPress={() => setPasswordView(prevState => !prevState)}
           />
           <TextInput
+            placeholderTextColor={'#bfbfbf'}
             placeholder={'Mot de passe'}
             style={styles.input}
             inputMode={'text'}
@@ -99,11 +119,26 @@ const RegisterScreen = ({navigation}: any) => {
             onChangeText={text => setPassword(text)}
           />
         </View>
-        <Button title={"S'inscrire"} color={'#6c5ce7'} onPress={handleSubmit} />
+        <TouchableOpacity
+          style={{
+            ...styles.btn,
+            borderTopEndRadius: 10,
+            borderBottomStartRadius: 10,
+          }}
+          onPress={() => handleSubmit}>
+          <Text style={styles.btnTxt}>S' inscrire</Text>
+        </TouchableOpacity>
         {messageError.length > 0 && (
           <Text style={{color: 'red', fontSize: 20}}>{messageError}</Text>
         )}
-      </ImageBackground>
+      </View>
+      <View style={{alignItems: 'flex-end'}}>
+        <Image
+          source={Trai}
+          resizeMode={'cover'}
+          style={{transform: [{scaleX: -1}]}}
+        />
+      </View>
     </View>
   );
 };
@@ -113,16 +148,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#dfe6e9',
+    backgroundColor: '#323232',
     borderRadius: 12,
   },
   input: {
     flex: 1,
     padding: 10,
-    color: '#424242',
+    color: '#bfbfbf',
   },
   icon: {
     padding: 10,
+    color: '#bfbfbf',
+  },
+  btn: {
+    backgroundColor: 'rgba(214,48,49,0.46)',
+    padding: 10,
+  },
+  btnTxt: {
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20,
   },
 });
 
