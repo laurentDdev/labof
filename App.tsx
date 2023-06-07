@@ -20,9 +20,10 @@ import userContext from './src/context/user.context';
 // @ts-ignore
 import {API_URL} from '@env';
 import ProfilScreen from './src/screens/profil/profil.screen';
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import AfterEventScreen from "./src/screens/event/afterevent.screen";
-import TrackEventScreen from "./src/screens/event/trackEvent.screen";
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import AfterEventScreen from './src/screens/event/afterevent.screen';
+import TrackEventScreen from './src/screens/event/trackEvent.screen';
+import SplashScreen from './src/screens/splash.screen';
 
 function App(): JSX.Element {
   const apiUrl = API_URL;
@@ -67,38 +68,64 @@ function App(): JSX.Element {
   }, []);
 
   const MyTopBar = () => (
-    <Topbar.Navigator initialRouteName={'afterevent'} screenOptions={{tabBarStyle: {backgroundColor: '#202020'}, tabBarIndicatorStyle: {backgroundColor: 'white'},tabBarLabelStyle: {fontWeight:'bold',fontSize: 14,color: '#bfbfbf',textTransform: 'capitalize'}}}>
-      <Topbar.Screen name={'afterevent'}  component={AfterEventScreen} options={{tabBarLabel: 'A venir'}} />
-      <Topbar.Screen name={'trackevent'} component={TrackEventScreen} options={{tabBarLabel: 'Suivie'}}/>
+    <Topbar.Navigator
+      initialRouteName={'afterevent'}
+      screenOptions={{
+        tabBarStyle: {backgroundColor: '#202020'},
+        tabBarIndicatorStyle: {backgroundColor: 'white'},
+        tabBarLabelStyle: {
+          fontWeight: 'bold',
+          fontSize: 14,
+          color: '#bfbfbf',
+          textTransform: 'capitalize',
+        },
+      }}>
+      <Topbar.Screen
+        name={'afterevent'}
+        component={AfterEventScreen}
+        options={{tabBarLabel: 'A venir'}}
+      />
+      <Topbar.Screen
+        name={'trackevent'}
+        component={TrackEventScreen}
+        options={{tabBarLabel: 'Suivie'}}
+      />
     </Topbar.Navigator>
-  )
+  );
 
   return (
     <>
       <StatusBar backgroundColor={'#202020'} />
-      {!login ? (
+      {loading ? (
+        <SplashScreen />
+      ) : !login ? (
         <Stack.Navigator
           initialRouteName={'space'}
           screenOptions={{headerShown: false}}>
-          <Stack.Screen name={'space'}  component={SpaceScreen} />
+          <Stack.Screen name={'space'} component={SpaceScreen} />
           <Stack.Screen name={'login'} component={LoginScreen} />
           <Stack.Screen name={'register'} component={RegisterScreen} />
         </Stack.Navigator>
       ) : (
         <Drawer.Navigator
           initialRouteName={'topbar'}
-          defaultStatus={'open'}
+          defaultStatus={'closed'}
           screenOptions={{
             headerShown: false,
             drawerStyle: {
-              backgroundColor: 'white',
-              zIndex: 100,
+              backgroundColor: '#323232',
+            },
+            drawerLabelStyle: {
+              color: 'white',
             },
             drawerPosition: 'left',
           }}>
-          <Drawer.Screen name={'topbar'}  component={MyTopBar} />
-          <Drawer.Screen name={'profil'} component={ProfilScreen} />
-
+          <Drawer.Screen
+            name={'topbar'}
+            component={MyTopBar}
+            options={{drawerLabel: 'A Venir'}}
+          />
+          <Drawer.Screen name={'profil'} component={ProfilScreen} options={{drawerLabel: 'Mon profile'}} />
         </Drawer.Navigator>
       )}
     </>
