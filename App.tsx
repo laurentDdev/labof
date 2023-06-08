@@ -60,6 +60,8 @@ function App(): JSX.Element {
       })
       .catch(err => {
         console.log(err);
+        setLoading(false)
+        setLogin(false)
       });
   };
 
