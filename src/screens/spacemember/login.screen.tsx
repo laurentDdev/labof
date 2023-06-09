@@ -39,7 +39,8 @@ const LoginScreen = () => {
           console.log(token);
           await AsyncStorage.setItem('@access_token', token);
           setMessageError('');
-          user.setLogin(true)
+          user.setLogin(true);
+          user.setUserData(res.data.user)
         } catch (e) {
           console.log(e);
           setMessageError('Veuillez tentez de vous reconnecter');
