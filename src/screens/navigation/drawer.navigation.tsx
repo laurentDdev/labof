@@ -1,17 +1,27 @@
-import React, { useContext } from "react";
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
+import React, {useContext} from 'react';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+} from '@react-navigation/drawer';
 import AfterEventScreen from '../event/afterevent.screen';
 import ProfilScreen from '../profil/profil.screen';
 import TopbarNavigation from './topbar.navigation';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { Image, ImageBackground, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Icon} from '@rneui/themed';
 import {useNavigation} from '@react-navigation/native';
 import EditProfileScreen from '../profil/editProfile.screen';
 import AddEventScreen from '../event/addEvent.screen';
-import userContext from "../../context/user.context";
-import { API_URL } from '@env'
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import userContext from '../../context/user.context';
+import {API_URL} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const apiUrl = API_URL;
 
@@ -30,25 +40,22 @@ const MyStackProfile = () => (
   </Stack.Navigator>
 );
 
-
-
 const CustomDrawer = props => {
-
   const user = useContext(userContext);
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem('@access_token');
     user.setLogin(false);
     user.setUserData({});
-  }
+  };
   return (
     <View style={{flex: 1}}>
-      <DrawerContentScrollView
-        {...props}>
-        <View
-          style={{padding: 20}}>
+      <DrawerContentScrollView {...props}>
+        <View style={{padding: 20}}>
           <Image
-            source={{uri: `http://10.0.2.2:3000/profile/${user.userData.avatar}.png`}}
+            source={{
+              uri: `http://10.0.2.2:3000/profile/${user.userData.avatar}.png`,
+            }}
             style={{height: 80, width: 80, borderRadius: 40, marginBottom: 10}}
           />
           <Text
@@ -87,11 +94,11 @@ const CustomDrawer = props => {
 const DrawerNavigation = () => {
   return (
     <Drawer.Navigator
-      drawerContent={(props) => <CustomDrawer {...props} />}
+      drawerContent={props => <CustomDrawer {...props} />}
       initialRouteName={'topbar'}
       defaultStatus={'closed'}
       screenOptions={{
-        drawerType: 'front',
+        drawerType: 'slide',
         swipeEnabled: true,
         headerShown: false,
         drawerStyle: {
