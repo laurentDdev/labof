@@ -17,7 +17,7 @@ import DayBtn from '../components/AddEvent/dayBtn';
 import axios from 'axios';
 import {API_URL} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import userContext from "../../context/user.context";
+import userContext from '../../context/user.context';
 
 const apiUrl = API_URL;
 
@@ -58,22 +58,20 @@ const AddEventScreen = () => {
       name: imageName,
     });
 
-      console.log(startDate)
-      console.log(endDate)
     const aditionalData = {
-        name: name,
-        desc: desc,
-        eventType: eventType,
-        startDate: startDate.toLocaleDateString(),
-        endDate: endDate.toLocaleDateString(),
-        repeatDay: day,
-        place: place,
-        userId: user.userData.id
-    }
+      name: name,
+      desc: desc,
+      eventType: eventType,
+      startDate: startDate.toLocaleDateString(),
+      endDate: endDate.toLocaleDateString(),
+      repeatDay: day,
+      place: place,
+      userId: user.userData.id,
+    };
 
     Object.keys(aditionalData).forEach(key => {
-        formData.append(key, aditionalData[key])
-    })
+      formData.append(key, aditionalData[key]);
+    });
 
     axios
       .post(`${apiUrl}/event/create`, formData, {
