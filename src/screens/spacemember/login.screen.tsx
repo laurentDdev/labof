@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, {useContext, useState} from 'react';
 import {
   Image,
   StyleSheet,
@@ -18,7 +18,7 @@ import Trai from '../../assets/auth/trai.png';
 import {API_URL} from '@env';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import userContext from "../../context/user.context";
+import userContext from '../../context/user.context';
 const LoginScreen = () => {
   const [passwordView, setPasswordView] = useState<boolean>(false);
 
@@ -40,7 +40,7 @@ const LoginScreen = () => {
           await AsyncStorage.setItem('@access_token', token);
           setMessageError('');
           user.setLogin(true);
-          user.setUserData(res.data.user)
+          user.setUserData(res.data.user);
         } catch (e) {
           console.log(e);
           setMessageError('Veuillez tentez de vous reconnecter');

@@ -24,14 +24,13 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import AfterEventScreen from './src/screens/event/afterevent.screen';
 import TrackEventScreen from './src/screens/event/trackEvent.screen';
 import SplashScreen from './src/screens/splash.screen';
-import DrawerNavigation from "./src/screens/navigation/drawer.navigation";
-import { NavigationContainer } from "@react-navigation/native";
+import DrawerNavigation from './src/screens/navigation/drawer.navigation';
+import {NavigationContainer} from '@react-navigation/native';
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 const Topbar = createMaterialTopTabNavigator();
 function App(): JSX.Element {
   const apiUrl = API_URL;
-
 
   const [loading, setLoading] = useState(true);
   const {login, setLogin, setUserData} = useContext(userContext);
@@ -59,20 +58,18 @@ function App(): JSX.Element {
       .then(res => {
         setLoading(false);
         setLogin(true);
-        setUserData(res.data.user)
+        setUserData(res.data.user);
       })
       .catch(err => {
         console.log(err);
-        setLoading(false)
-        setLogin(false)
+        setLoading(false);
+        setLogin(false);
       });
   };
 
   useEffect(() => {
     checkIsConnecting();
   }, []);
-
-
 
   return (
     <>
