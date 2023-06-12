@@ -28,9 +28,8 @@ import userContext from '../../context/user.context';
 import {Icon} from '@rneui/themed';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as events from 'events';
+
 import eventContext from '../../context/event.context';
-import {useNavigation} from '@react-navigation/native';
 const apiStatic = API_STATIC;
 const apiUrl = API_URL;
 const Event = ({
@@ -123,18 +122,21 @@ const Event = ({
       <View style={{flex: 1}}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           {editMode ? (
-            <TextInput
-              value={editMode ? newName : name}
-              onChangeText={text => setNewName(text)}
-              style={{
-                color: '#bfbfbf',
-                borderColor: 'white',
-                fontSize: 15,
-                fontWeight: 'bold',
-                borderBottomWidth: 1,
-                borderStyle: 'dashed',
-              }}
-            />
+            <View>
+              <Text style={{color: 'white'}}>Nouveau nom</Text>
+              <TextInput
+                value={editMode ? newName : name}
+                onChangeText={text => setNewName(text)}
+                style={{
+                  color: '#bfbfbf',
+                  borderColor: 'white',
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                  borderBottomWidth: 1,
+                  borderStyle: 'dashed',
+                }}
+              />
+            </View>
           ) : (
             <Text style={styles.headerText}>{name}</Text>
           )}
@@ -158,18 +160,21 @@ const Event = ({
         </View>
         <View>
           {editMode ? (
-            <TextInput
-              value={editMode ? newDesc : desc}
-              onChangeText={text => setNewDesc(text)}
-              style={{
-                color: '#bfbfbf',
-                borderColor: 'white',
-                fontSize: 15,
-                fontWeight: 'bold',
-                borderBottomWidth: 1,
-                borderStyle: 'dashed',
-              }}
-            />
+            <View>
+              <Text style={{color: 'white'}}>Nouvelle description</Text>
+              <TextInput
+                value={editMode ? newDesc : desc}
+                onChangeText={text => setNewDesc(text)}
+                style={{
+                  color: '#bfbfbf',
+                  borderColor: 'white',
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                  borderBottomWidth: 1,
+                  borderStyle: 'dashed',
+                }}
+              />
+            </View>
           ) : (
             <Text style={{color: '#bfbfbf', fontSize: 15, fontWeight: 'bold'}}>
               {desc}
@@ -184,17 +189,17 @@ const Event = ({
           justifyContent: 'space-between',
           gap: 5,
         }}>
-        <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+        {!editMode &&    <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
           <Icon name={'lock-clock'} color={'#bfbfbf'} />
           <Text style={{color: '#bfbfbf', width: '60%'}}>
             du {new Date(startEvent).toLocaleDateString()} au{' '}
             {new Date(endEvent).toLocaleDateString()} tous les {repeatEvent}
           </Text>
-        </View>
-        <TouchableOpacity
+        </View>}
+        {!editMode &&  <TouchableOpacity
           style={{backgroundColor: '#D63031', padding: 10, borderRadius: 4}}>
           <Text style={{color: 'white', fontWeight: 'bold'}}>Je participe</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>}
       </View>
     </View>
   );
