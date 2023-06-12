@@ -1,20 +1,42 @@
-import React, {useContext} from 'react';
-import {Button, Image, StyleSheet, Text, View} from 'react-native';
+import React, { useContext, useEffect, useState } from "react";
+import { Button, FlatList, Image, StyleSheet, Text, View } from "react-native";
 import userContext from '../../context/user.context';
 
 // @ts-ignore
-import {API_STATIC} from '@env';
+import {API_STATIC, API_URL} from '@env';
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const apiUrl = API_STATIC;
+const apiUrl = API_URL;
+
+const apiStatic = API_STATIC
 const ProfilScreen = ({navigation}: any) => {
-  const {userData}: any = useContext(userContext);
+  const {userData,setLogin}: any = useContext(userContext);
+  const [myEvent, setMyEvent] = useState([]);
+
+  useEffect(() => {
+    AsyncStorage.getItem('@access_token').then(token => {
+      axios.get(`${apiUrl}/event/my`, {
+        headers: {
+          authorization: token
+        }
+      })
+        .then(res => {
+          setMyEvent(res.data.events)
+        }).catch(err => {
+          console.log(err);
+          setLogin(false)
+      })
+    })
+
+  }, [])
 
   return (
     <View style={{flex: 1, backgroundColor: '#202020'}}>
       <View style={styles.profileHeader}>
         <View>
           <Image
-            source={{uri: `${apiUrl}/profile/${userData.avatar}.png`}}
+            source={{uri: `${apiStatic}/profile/${userData.avatar}.png`}}
             resizeMode={'cover'}
             style={styles.profileHeaderImage}
           />
@@ -32,6 +54,9 @@ const ProfilScreen = ({navigation}: any) => {
             color={'rgba(214,48,49,0.46)'}
           />
         </View>
+      </View>
+      <View>
+
       </View>
     </View>
   );

@@ -21,6 +21,7 @@ type props = {
   repeatEvent: string;
   startEvent: string;
   type: string;
+  openModal: any;
 };
 
 import {API_STATIC, API_URL} from '@env';
@@ -43,6 +44,7 @@ const Event = ({
   startEvent,
   endEvent,
   repeatEvent,
+  openModal
 }: props) => {
   const user = useContext(userContext);
   const events = useContext(eventContext);
@@ -155,7 +157,9 @@ const Event = ({
                 </TouchableOpacity>
               </>
             )}
-            <Icon name={'share'} color={'#212020'} size={30} />
+            <TouchableOpacity onPress={() => openModal(true)}>
+              <Icon name={'share'} color={'#212020'} size={30} />
+            </TouchableOpacity>
           </View>
         </View>
         <View>
@@ -189,17 +193,23 @@ const Event = ({
           justifyContent: 'space-between',
           gap: 5,
         }}>
-        {!editMode &&    <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
-          <Icon name={'lock-clock'} color={'#bfbfbf'} />
-          <Text style={{color: '#bfbfbf', width: '60%'}}>
-            du {new Date(startEvent).toLocaleDateString()} au{' '}
-            {new Date(endEvent).toLocaleDateString()} tous les {repeatEvent}
-          </Text>
-        </View>}
-        {!editMode &&  <TouchableOpacity
-          style={{backgroundColor: '#D63031', padding: 10, borderRadius: 4}}>
-          <Text style={{color: 'white', fontWeight: 'bold'}}>Je participe</Text>
-        </TouchableOpacity>}
+        {!editMode && (
+          <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+            <Icon name={'lock-clock'} color={'#bfbfbf'} />
+            <Text style={{color: '#bfbfbf', width: '60%'}}>
+              du {new Date(startEvent).toLocaleDateString()} au{' '}
+              {new Date(endEvent).toLocaleDateString()} {new Date(startEvent).toLocaleDateString() !== new Date(endEvent).toLocaleDateString() && `tous les ${repeatEvent}`}
+            </Text>
+          </View>
+        )}
+        {!editMode && (
+          <TouchableOpacity
+            style={{backgroundColor: '#D63031', padding: 10, borderRadius: 4}}>
+            <Text style={{color: 'white', fontWeight: 'bold'}}>
+              Je participe
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
