@@ -1,8 +1,8 @@
 import {createContext} from 'react';
 
 const eventContext = createContext({
-  events: {},
-  setEvents: (event: object) => {},
+  events: [],
+  setEvents: (events: any) => {},
 });
 
-export default eventContext
+export default eventContext;

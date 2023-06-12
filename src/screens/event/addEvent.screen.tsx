@@ -1,5 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {
+  ActivityIndicator,
   Button,
   Image,
   ImageBackground,
@@ -7,8 +8,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
-} from 'react-native';
+  View
+} from "react-native";
 import EventType from '../components/AddEvent/eventType';
 import {Icon} from '@rneui/themed';
 import DatePicker from 'react-native-date-picker';
@@ -18,10 +19,11 @@ import axios from 'axios';
 import {API_URL} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import userContext from '../../context/user.context';
+import eventContext from "../../context/event.context";
 
 const apiUrl = API_URL;
 
-const AddEventScreen = () => {
+const AddEventScreen = ({navigation}) => {
   const [eventType, setEventType] = useState('Festival');
   const [day, setDay] = useState('Lundi');
   const [image, setImage] = useState(null);
@@ -36,6 +38,21 @@ const AddEventScreen = () => {
   const [place, setPlace] = useState(0);
 
   const user = useContext(userContext);
+  const events = useContext(eventContext)
+  const [loading, setLoading] = useState(false);
+
+  const resetData = () => {
+    setEventType('Festival');
+    setDay('Lundi');
+    setImage(null);
+    setImageName('');
+    setStartDate(new Date());
+    setEndDate(new Date());
+    setName('');
+    setDesc('');
+    setPlace(0);
+
+  }
 
   const handleSendImage = () => {
     launchImageLibrary(
@@ -50,6 +67,7 @@ const AddEventScreen = () => {
   };
 
   const handleConfirmEvent = async () => {
+    setLoading(true)
     const token = await AsyncStorage.getItem('@access_token');
     const formData = new FormData();
     formData.append('eventimage', {
@@ -83,9 +101,16 @@ const AddEventScreen = () => {
       })
       .then(res => {
         console.log('ok');
+        events.setEvents([...events.events, res.data.event]);
+        setLoading(false);
+        navigation.navigate('after');
+        resetData();
+
       })
       .catch(err => {
         console.log(err);
+        user.setLogin(false)
+        setLoading(false)
       });
   };
 
@@ -99,6 +124,7 @@ const AddEventScreen = () => {
         gap: 10,
       }}>
       <View>
+        {loading && <ActivityIndicator/>}
         <Text style={{color: 'white', fontWeight: 'bold', fontSize: 30}}>
           Evenement
         </Text>
@@ -313,6 +339,7 @@ const AddEventScreen = () => {
         onPress={handleConfirmEvent}
         title={"Ajoutez l'évenement"}
         color={'rgba(214,48,49,0.46)'}
+        disabled={loading}
       />
     </View>
   );

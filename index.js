@@ -15,7 +15,7 @@ const MyApp = () => {
 
   const [login, setLogin] = useState(false);
   const [userData, setUserData] = useState({});
-  const {events, setEvents} = useState({})
+  const [events, setEvents] = useState([]);
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>

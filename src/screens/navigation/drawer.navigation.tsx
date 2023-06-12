@@ -9,6 +9,7 @@ import ProfilScreen from '../profil/profil.screen';
 import TopbarNavigation from './topbar.navigation';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
+  Button,
   Image,
   ImageBackground,
   Text,
@@ -30,7 +31,7 @@ const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
 const MyStackProfile = () => (
-  <Stack.Navigator initialRouteName={'profile'}>
+  <Stack.Navigator initialRouteName={'profile'} >
     <Stack.Screen
       name={'profile'}
       component={ProfilScreen}
