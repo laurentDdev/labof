@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {ActivityIndicator, FlatList, Text, View} from 'react-native';
+import {ActivityIndicator, Button, FlatList, Text, View} from 'react-native';
 
 import {API_URL} from '@env';
 import axios from 'axios';
@@ -7,8 +7,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import userContext from '../../context/user.context';
 import eventContext from '../../context/event.context';
 import Event from '../components/event';
-import {BottomSheet, ListItem, Button} from '@rneui/themed';
-import Contact from "../components/contact";
+import Contact from '../components/contact';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import MyBottomSheet from "../components/MyBottomSheet";
+
+
 
 const apiUrl = API_URL;
 const AfterEventScreen = () => {
@@ -53,7 +56,9 @@ const AfterEventScreen = () => {
               contentContainerStyle={{gap: 10}}
               data={events.events}
               keyExtractor={item => item.id}
-              renderItem={({item}) => <Event {...item} openModal={setIsVisible} />}
+              renderItem={({item}) => (
+                <Event  {...item} openModal={setIsVisible} />
+              )}
             />
           ) : (
             <Text style={{color: 'white', textAlign: 'center'}}>
@@ -62,10 +67,8 @@ const AfterEventScreen = () => {
           )}
         </View>
       )}
-      <Text style={{color: 'white'}}>{isVisible}</Text>
-      <BottomSheet onBackdropPress={() => setIsVisible(false)} modalProps={{}} isVisible={isVisible}>
-        
-      </BottomSheet>
+      <MyBottomSheet isVisible={isVisible} setIsVisible={setIsVisible} />
+
     </View>
   );
 };

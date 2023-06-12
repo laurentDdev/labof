@@ -44,7 +44,7 @@ const Event = ({
   startEvent,
   endEvent,
   repeatEvent,
-  openModal
+  openModal,
 }: props) => {
   const user = useContext(userContext);
   const events = useContext(eventContext);
@@ -198,7 +198,10 @@ const Event = ({
             <Icon name={'lock-clock'} color={'#bfbfbf'} />
             <Text style={{color: '#bfbfbf', width: '60%'}}>
               du {new Date(startEvent).toLocaleDateString()} au{' '}
-              {new Date(endEvent).toLocaleDateString()} {new Date(startEvent).toLocaleDateString() !== new Date(endEvent).toLocaleDateString() && `tous les ${repeatEvent}`}
+              {new Date(endEvent).toLocaleDateString()}{' '}
+              {new Date(startEvent).toLocaleDateString() !==
+                new Date(endEvent).toLocaleDateString() &&
+                `tous les ${repeatEvent}`}
             </Text>
           </View>
         )}
