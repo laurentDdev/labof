@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
   profileHeaderImage: {
     width: 70,
     height: 70,
+    borderRadius: 500
   },
 });
 

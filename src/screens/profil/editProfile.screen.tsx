@@ -18,18 +18,19 @@ import axios from 'axios/index';
 const apiStatic = API_STATIC;
 const apiUrl = API_URL;
 
-const EditProfileScreen = () => {
+const EditProfileScreen = ({navigation}) => {
   const user = useContext(userContext);
   const [newPseudo, setNewPseudo] = useState(user.userData.pseudo);
+  const [newImage, setNewImage] = useState(null);
+  const [newImageName, setNewImageName] = useState('image');
   const [newBio, setNewBio] = useState(
     user.userData.bio?.length > 0 ? user.userData.bio : 'Aucune bio',
   );
-  const [newImage, setNewImage] = useState(null);
-  const [imageName, setImageName] = useState('testrr');
+
 
   const handleCancel = () => {
     setNewImage(null);
-    setImageName('');
+    setNewImageName('');
     setNewPseudo(user.userData.pseudo);
     setNewBio(user.userData.bio?.length > 0 ? user.userData.bio : 'Aucune bio');
   };
@@ -40,9 +41,9 @@ const EditProfileScreen = () => {
         if (img) {
           console.log(img);
           console.log('------------------');
-          console.log(img.assets[0].fileName);
+          console.log();
           console.log('------------------');
-          setImageName("fezzgzrhrh");
+          setNewImageName(img.assets[0].fileName);
 
           setNewImage(img.assets[0].uri);
         }
@@ -53,11 +54,11 @@ const EditProfileScreen = () => {
   const handleConfirmChange = async () => {
     const token = await AsyncStorage.getItem('@access_token');
     const formData = new FormData();
-    console.log(newImage, imageName);
+    console.log(newImage, newImageName);
     formData.append('newprofileimage', {
       uri: newImage,
       type: 'image/jpeg',
-      name: imageName,
+      name: newImageName,
     });
 
     const aditionalData = {
@@ -69,18 +70,23 @@ const EditProfileScreen = () => {
       formData.append(key, aditionalData[key]);
     });
 
+    console.log('token', token);
     axios
       .patch(`${apiUrl}/user/${user.userData.id}/profile`, formData, {
         headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
           authorization: token,
         },
       })
       .then(res => {
-        console.log(res);
+        console.log(res.data);
+        const {id, pseudo, bio, avatar, email} = res.data.updatedUser;
+        user.setUserData({id, pseudo, bio, avatar, email});
+        navigation.goBack()
       })
       .catch(err => {
-        console.log(err.data);
-        user.setLogin(false);
+        console.log(err.response)
       });
   };
   return (

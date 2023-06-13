@@ -77,6 +77,20 @@ const Event = ({
       });
   };
 
+  const handleTrack = async () => {
+    const token = await AsyncStorage.getItem('@access_token')
+
+    axios.post(`${apiUrl}/event/${id}/track`, {}, {
+      headers: {
+        'authorization': token
+      }
+    }).then(res => {
+      console.log(res);
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
   const handleEdit = async () => {
     const token = await AsyncStorage.getItem('@access_token');
 
@@ -216,6 +230,7 @@ const Event = ({
         )}
         {!editMode && !isInProfile && (
           <TouchableOpacity
+            onPress={handleTrack}
             style={{backgroundColor: '#D63031', padding: 10, borderRadius: 4}}>
             <Text style={{color: 'white', fontWeight: 'bold'}}>
               Je participe
