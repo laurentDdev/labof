@@ -23,7 +23,7 @@ type props = {
   type: string;
   openModal: any;
   setEvent: any;
-  isInProfile: boolean
+  isInProfile: boolean;
 };
 
 import {API_STATIC, API_URL} from '@env';
@@ -48,7 +48,7 @@ const Event = ({
   repeatEvent,
   openModal,
   setEvent,
-  isInProfile
+  isInProfile,
 }: props) => {
   const user = useContext(userContext);
   const events = useContext(eventContext);
@@ -78,18 +78,25 @@ const Event = ({
   };
 
   const handleTrack = async () => {
-    const token = await AsyncStorage.getItem('@access_token')
+    const token = await AsyncStorage.getItem('@access_token');
 
-    axios.post(`${apiUrl}/event/${id}/track`, {}, {
-      headers: {
-        'authorization': token
-      }
-    }).then(res => {
-      console.log(res);
-    }).catch(err => {
-      console.log(err);
-    })
-  }
+    axios
+      .post(
+        `${apiUrl}/event/${id}/track`,
+        {},
+        {
+          headers: {
+            authorization: token,
+          },
+        },
+      )
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   const handleEdit = async () => {
     const token = await AsyncStorage.getItem('@access_token');
@@ -111,7 +118,7 @@ const Event = ({
         )
         .then(res => {
           console.log(res);
-          const currentEvent = events.events.find(event => event.id == id);
+          const currentEvent: any = events.events.find(event => event.id == id);
           currentEvent.name = newName;
           currentEvent.desc = newDesc;
           events.setEvents([...events.events]);
@@ -124,9 +131,9 @@ const Event = ({
   };
 
   const handleOpen = () => {
-    openModal(true)
-    setEvent(id)
-  }
+    openModal(true);
+    setEvent(id);
+  };
 
   return (
     <View
@@ -139,7 +146,11 @@ const Event = ({
       }}>
       <View>
         <Image
-          style={{height: isInProfile ? 150 : 200, width: '100%', borderRadius: 10}}
+          style={{
+            height: isInProfile ? 150 : 200,
+            width: '100%',
+            borderRadius: 10,
+          }}
           source={{uri: `${apiStatic}/event/${image}.png`}}
           resizeMode={'cover'}
         />
@@ -180,9 +191,11 @@ const Event = ({
                 </TouchableOpacity>
               </>
             )}
-            {!isInProfile &&    <TouchableOpacity onPress={() => handleOpen()}>
-              <Icon name={'share'} color={'#212020'} size={30} />
-            </TouchableOpacity>}
+            {!isInProfile && (
+              <TouchableOpacity onPress={() => handleOpen()}>
+                <Icon name={'share'} color={'#212020'} size={30} />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
         <View>

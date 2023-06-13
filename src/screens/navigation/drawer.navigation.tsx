@@ -4,14 +4,11 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import AfterEventScreen from '../event/afterevent.screen';
 import ProfilScreen from '../profil/profil.screen';
 import TopbarNavigation from './topbar.navigation';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
-  Button,
   Image,
-  ImageBackground,
   Text,
   TouchableOpacity,
   View,
@@ -21,10 +18,8 @@ import {useNavigation} from '@react-navigation/native';
 import EditProfileScreen from '../profil/editProfile.screen';
 import AddEventScreen from '../event/addEvent.screen';
 import userContext from '../../context/user.context';
-import {API_URL} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const apiUrl = API_URL;
 
 const Drawer = createDrawerNavigator();
 
