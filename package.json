@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@emailjs/browser": "^3.11.0",
     "@gorhom/bottom-sheet": "^4.4.7",
     "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-navigation/drawer": "^6.6.2",
@@ -23,6 +24,7 @@
     "react-native": "0.71.8",
     "react-native-date-picker": "^4.2.13",
     "react-native-dotenv": "^3.4.8",
+    "react-native-email": "^2.1.0",
     "react-native-gesture-handler": "^2.11.0",
     "react-native-image-picker": "^5.4.0",
     "react-native-modalize": "^2.1.1",

@@ -58,10 +58,12 @@ const AddEventScreen = ({navigation}) => {
     launchImageLibrary(
       {selectionLimit: 1, mediaType: 'photo', maxHeight: 500, maxWidth: 300},
       img => {
-        console.log(img);
-        setImage(img.assets[0].uri);
-        setImageType(img.assets[0].type);
-        setImageName(img.assets[0].fileName);
+        if (img) {
+          console.log(img);
+          setImage(img.assets[0].uri);
+          setImageType(img.assets[0].type);
+          setImageName(img.assets[0].fileName);
+        }
       },
     );
   };

@@ -30,6 +30,18 @@ const Drawer = createDrawerNavigator();
 
 const Stack = createNativeStackNavigator();
 
+
+const MyCustomStackHeader = () => {
+  const navigation = useNavigation();
+  return (
+    <View style={{alignItems: 'flex-start', backgroundColor: '#202020', height: 40}}>
+      <TouchableOpacity onPress={() => navigation.navigate('profile')}>
+        <Icon name={'arrow-back'} color={'white'} />
+      </TouchableOpacity>
+    </View>
+  )
+}
+
 const MyStackProfile = () => (
   <Stack.Navigator initialRouteName={'profile'} >
     <Stack.Screen
@@ -37,7 +49,7 @@ const MyStackProfile = () => (
       component={ProfilScreen}
       options={{headerShown: false}}
     />
-    <Stack.Screen name={'edit-profile'} component={EditProfileScreen} />
+    <Stack.Screen name={'edit-profile'}  component={EditProfileScreen} options={{header: MyCustomStackHeader}}  />
   </Stack.Navigator>
 );
 

@@ -22,6 +22,8 @@ type props = {
   startEvent: string;
   type: string;
   openModal: any;
+  setEvent: any;
+  isInProfile: boolean
 };
 
 import {API_STATIC, API_URL} from '@env';
@@ -45,6 +47,8 @@ const Event = ({
   endEvent,
   repeatEvent,
   openModal,
+  setEvent,
+  isInProfile
 }: props) => {
   const user = useContext(userContext);
   const events = useContext(eventContext);
@@ -105,10 +109,15 @@ const Event = ({
     }
   };
 
+  const handleOpen = () => {
+    openModal(true)
+    setEvent(id)
+  }
+
   return (
     <View
       style={{
-        height: 400,
+        height: isInProfile ? 300 : 400,
         width: '100%',
         backgroundColor: '#323232',
         padding: 10,
@@ -116,7 +125,7 @@ const Event = ({
       }}>
       <View>
         <Image
-          style={{height: 200, width: '100%', borderRadius: 10}}
+          style={{height: isInProfile ? 150 : 200, width: '100%', borderRadius: 10}}
           source={{uri: `${apiStatic}/event/${image}.png`}}
           resizeMode={'cover'}
         />
@@ -157,9 +166,9 @@ const Event = ({
                 </TouchableOpacity>
               </>
             )}
-            <TouchableOpacity onPress={() => openModal(true)}>
+            {!isInProfile &&    <TouchableOpacity onPress={() => handleOpen()}>
               <Icon name={'share'} color={'#212020'} size={30} />
-            </TouchableOpacity>
+            </TouchableOpacity>}
           </View>
         </View>
         <View>
@@ -205,7 +214,7 @@ const Event = ({
             </Text>
           </View>
         )}
-        {!editMode && (
+        {!editMode && !isInProfile && (
           <TouchableOpacity
             style={{backgroundColor: '#D63031', padding: 10, borderRadius: 4}}>
             <Text style={{color: 'white', fontWeight: 'bold'}}>

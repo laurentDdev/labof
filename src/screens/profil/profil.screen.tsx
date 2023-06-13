@@ -6,13 +6,16 @@ import userContext from '../../context/user.context';
 import {API_STATIC, API_URL} from '@env';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import eventContext from "../../context/event.context";
+import Event from "../components/event";
 
 const apiUrl = API_URL;
 
 const apiStatic = API_STATIC
 const ProfilScreen = ({navigation}: any) => {
   const {userData,setLogin}: any = useContext(userContext);
-  const [myEvent, setMyEvent] = useState([]);
+  const events = useContext(eventContext);
+  const [myEvent, setMyEvent] = useState(events.events.filter(e => e.author_id === userData.id));
 
   useEffect(() => {
     AsyncStorage.getItem('@access_token').then(token => {
@@ -34,13 +37,25 @@ const ProfilScreen = ({navigation}: any) => {
   return (
     <View style={{flex: 1, backgroundColor: '#202020'}}>
       <View style={styles.profileHeader}>
-        <View>
-          <Image
-            source={{uri: `${apiStatic}/profile/${userData.avatar}.png`}}
-            resizeMode={'cover'}
-            style={styles.profileHeaderImage}
-          />
-          <Text style={styles.profileHeaderText}>{userData.pseudo}</Text>
+        <View style={{flexDirection: 'row', alignItems: 'center',justifyContent: 'space-between'}}>
+          <View>
+            <Image
+              source={{uri: `${apiStatic}/profile/${userData.avatar}.png`}}
+              resizeMode={'cover'}
+              style={styles.profileHeaderImage}
+            />
+            <Text style={styles.profileHeaderText}>{userData.pseudo}</Text>
+          </View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-around', width: 200,}}>
+            <View>
+              <Text style={{color: 'white', fontWeight: 'bold'}}>Mes event</Text>
+              <Text style={{color: 'white', textAlign: 'center',fontWeight: 'bold'}}>{myEvent.length}</Text>
+            </View>
+            <View>
+              <Text style={{color: 'white', fontWeight: 'bold'}}>Event suivie</Text>
+              <Text style={{color: 'white', textAlign: 'center',fontWeight: 'bold'}}>{myEvent.length}</Text>
+            </View>
+          </View>
         </View>
         <View style={{gap: 10}}>
           <Text style={{color: '#bfbfbf'}}>
@@ -56,7 +71,9 @@ const ProfilScreen = ({navigation}: any) => {
         </View>
       </View>
       <View>
-
+        {myEvent.length > 0 ? (
+          <FlatList contentContainerStyle={{padding: 20}} data={myEvent} renderItem={({item}) => <Event {...item} isInProfile={true} />} />
+        ): <Text style={{color: 'white', textAlign: 'center', fontWeight: 'bold'}}>Vous n'avez aucun evènement</Text>}
       </View>
     </View>
   );

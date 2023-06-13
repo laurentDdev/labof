@@ -21,6 +21,7 @@ const AfterEventScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [isVisible, setIsVisible] = useState(false);
+  const [currentEvent, setCurrentEvent] = useState(0)
 
 
   useEffect(() => {
@@ -57,7 +58,7 @@ const AfterEventScreen = () => {
               data={events.events}
               keyExtractor={item => item.id}
               renderItem={({item}) => (
-                <Event  {...item} openModal={setIsVisible} />
+                <Event  {...item} openModal={setIsVisible} setEvent={setCurrentEvent} />
               )}
             />
           ) : (
@@ -67,7 +68,7 @@ const AfterEventScreen = () => {
           )}
         </View>
       )}
-      <MyBottomSheet isVisible={isVisible} setIsVisible={setIsVisible} />
+      <MyBottomSheet isVisible={isVisible} event={events.events.find(e => e.id === currentEvent)} setIsVisible={setIsVisible} />
 
     </View>
   );
