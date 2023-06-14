@@ -91,7 +91,8 @@ const Event = ({
         },
       )
       .then(res => {
-        console.log(res);
+        console.log(res.data);
+        events.setEventTrack([...events.eventTrack, {id, name, desc, startEvent, endEvent, image, repeatEvent, type}])
       })
       .catch(err => {
         console.log(err);
@@ -182,18 +183,18 @@ const Event = ({
                 <TouchableOpacity onPress={handleEdit}>
                   <Icon
                     name={'edit'}
-                    color={editMode ? 'crimson' : '#212020'}
+                    color={editMode ? 'crimson' : 'white'}
                     size={30}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={handleDelete}>
-                  <Icon name={'delete'} color={'#212020'} size={30} />
+                  <Icon name={'delete'} color={'white'} size={30} />
                 </TouchableOpacity>
               </>
             )}
             {!isInProfile && (
               <TouchableOpacity onPress={() => handleOpen()}>
-                <Icon name={'share'} color={'#212020'} size={30} />
+                <Icon name={'share'} color={'white'} size={30} />
               </TouchableOpacity>
             )}
           </View>
